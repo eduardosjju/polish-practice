@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kraków — say it aloud</title>
+<style>
+  :root{
+    --ink:#f2ede2;
+    --paper:#131210;
+    --card:#1e1c19;
+    --line:#38342d;
+    --amber:#e8825a;
+    --dust:#a49a88;
+    --gold:#d9b65a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    line-height:1.5;
+    padding:22px 16px 80px;
+    max-width:560px;
+    margin:0 auto;
+  }
+  header{margin-bottom:20px}
+  .kicker{
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:.7rem;letter-spacing:.18em;color:var(--dust);
+    display:block;margin-bottom:8px;
+  }
+  h1{font-size:2rem;line-height:1.05;font-weight:600;letter-spacing:-.01em}
+  h1 span{color:var(--amber)}
+  .sub{margin-top:10px;color:var(--dust);font-size:.9rem;max-width:46ch}
+
+  .warnbox{
+    background:#201d18;border:1px dashed var(--line);
+    border-radius:9px;padding:11px 13px;margin-top:14px;
+    font-size:.82rem;color:var(--dust);
+  }
+  .warnbox b{color:var(--amber)}
+  #novoice{
+    display:none;background:#241713;border:1px solid var(--amber);
+    color:var(--ink);border-radius:9px;padding:11px 13px;
+    margin-top:12px;font-size:.85rem;
+  }
+
+  .controls{
+    position:sticky;top:0;z-index:5;
+    background:linear-gradient(var(--paper) 78%, transparent);
+    padding:14px 0 12px;margin-top:8px;
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  }
+  button{
+    font-family:inherit;cursor:pointer;border:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .primary{
+    background:var(--amber);color:#1a120e;
+    font-size:.95rem;font-weight:700;
+    border-radius:999px;padding:10px 18px;letter-spacing:-.01em;
+  }
+  .ghost{
+    background:transparent;color:var(--dust);
+    border:1px solid var(--line);border-radius:999px;
+    padding:9px 14px;font-size:.85rem;
+  }
+  .ghost.on{color:var(--gold);border-color:var(--gold)}
+  .rate{
+    margin-left:auto;display:flex;align-items:center;gap:6px;
+    font-size:.75rem;color:var(--dust);
+    font-family:ui-monospace,Menlo,monospace;
+  }
+  .rate button{
+    background:var(--card);color:var(--ink);border:1px solid var(--line);
+    width:26px;height:26px;border-radius:6px;font-size:.9rem;line-height:1;
+  }
+
+  .row{
+    display:flex;align-items:center;gap:12px;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:12px 12px;margin-bottom:9px;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .row.speaking{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold), inset 3px 0 0 var(--gold)}
+  .play{
+    flex:0 0 auto;width:46px;height:46px;border-radius:50%;
+    background:#2a2621;border:1px solid var(--line);
+    color:var(--amber);font-size:1.1rem;
+    display:grid;place-items:center;
+  }
+  .row.speaking .play{background:var(--gold);color:#1a140a;border-color:var(--gold)}
+  .txt{flex:1 1 auto;min-width:0}
+  .pl{font-size:1.12rem;font-weight:600;letter-spacing:-.01em}
+  .en{font-size:.86rem;color:var(--dust);margin-top:2px}
+
+  .divider{
+    font-family:ui-monospace,Menlo,monospace;
+    font-size:.62rem;letter-spacing:.14em;color:var(--dust);
+    margin:20px 0 10px;padding-bottom:4px;border-bottom:1px solid var(--line);
+  }
+
+  footer{
+    margin-top:30px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:.78rem;color:var(--dust);text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="kicker">POLISH · TAP TO HEAR</span>
+  <h1>Say it <span>aloud</span>.</h1>
+  <p class="sub">Tap any circle to hear the Polish. Or hit “Play all” to walk the whole list hands-free while the English shows.</p>
+  <div class="warnbox">
+    <b>Heads up:</b> this uses your phone’s built-in voice — decent, not native. For perfect pronunciation, check these words on <b>Forvo</b> or Google Translate’s speaker. Best with sound on and silent-switch off.
+  </div>
+  <div id="novoice">
+    ⚠ No Polish voice found on this device, so it’ll read with a non-Polish accent. On iOS: Settings → Accessibility → Spoken Content → Voices → add <b>Polish</b>. On Android: install a Polish TTS voice in system settings.
+  </div>
+</header>
+
+<div class="controls">
+  <button class="primary" id="playAll">▶︎ Play all</button>
+  <button class="ghost" id="loopBtn">Loop: off</button>
+  <div class="rate">
+    speed
+    <button id="slower">–</button>
+    <span id="rateVal">0.9</span>
+    <button id="faster">+</button>
+  </div>
+</div>
+
+<div id="list"></div>
+
+<footer>
+  Repeat after it. The whole point is the entering ritual — <i>Dzień dobry</i> in, <i>Dziękuję</i> / <i>Do widzenia</i> out.
+</footer>
+
+<script>
+const PHRASES = [
+  {section:"Greetings & politeness"},
+  {pl:"Dzień dobry", en:"Good day / hello — say it walking into every shop & café"},
+  {pl:"Do widzenia", en:"Goodbye — say it on the way out"},
+  {pl:"Dziękuję", en:"Thank you"},
+  {pl:"Proszę", en:"Please / here you go / you're welcome"},
+  {pl:"Przepraszam", en:"Sorry / excuse me"},
+  {pl:"Tak", en:"Yes"},
+  {pl:"Nie", en:"No"},
+  {section:"Ordering & paying"},
+  {pl:"Poproszę", en:"I'd like… (point + say this)"},
+  {pl:"Ile to kosztuje?", en:"How much is it?"},
+  {pl:"Rachunek, proszę", en:"The bill, please"},
+  {pl:"Czy mogę zapłacić kartą?", en:"Can I pay by card?"},
+  {pl:"Woda", en:"Water"},
+  {pl:"Piwo", en:"Beer"},
+  {pl:"Kawa", en:"Coffee"},
+  {section:"Getting around"},
+  {pl:"Gdzie jest…?", en:"Where is…?"},
+  {pl:"Toaleta", en:"Toilet"},
+  {pl:"Wejście", en:"Entrance"},
+  {pl:"Wyjście", en:"Exit"},
+  {pl:"Rynek", en:"The main market square"},
+  {section:"Rescue phrases"},
+  {pl:"Czy mówi Pan po angielsku?", en:"Do you speak English? (to a man)"},
+  {pl:"Czy mówi Pani po angielsku?", en:"Do you speak English? (to a woman)"},
+  {pl:"Nie rozumiem", en:"I don't understand"},
+  {pl:"Nie mówię po polsku", en:"I don't speak Polish"},
+  {section:"Ice-breaker"},
+  {pl:"Pierwszy raz w Polsce i bardzo mi się podoba!", en:"First time in Poland and really liking it!"},
+];
+
+let rate = 0.9;
+let loop = false;
+let plVoice = null;
+
+function pickVoice(){
+  const voices = speechSynthesis.getVoices();
+  plVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith("pl")) || null;
+  document.getElementById("novoice").style.display = plVoice ? "none" : "block";
+}
+pickVoice();
+speechSynthesis.onvoiceschanged = pickVoice;
+
+const list = document.getElementById("list");
+const rows = [];
+PHRASES.forEach((p, i) => {
+  if(p.section){
+    const d = document.createElement("div");
+    d.className = "divider";
+    d.textContent = p.section.toUpperCase();
+    list.appendChild(d);
+    return;
+  }
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML = `
+    <button class="play" aria-label="Play">▶</button>
+    <div class="txt">
+      <div class="pl"></div>
+      <div class="en"></div>
+    </div>`;
+  row.querySelector(".pl").textContent = p.pl;
+  row.querySelector(".en").textContent = p.en;
+  row.querySelector(".play").addEventListener("click", () => speakOne(p.pl, row));
+  list.appendChild(row);
+  rows.push({el:row, pl:p.pl});
+});
+
+function makeUtter(text){
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "pl-PL";
+  if(plVoice) u.voice = plVoice;
+  u.rate = rate;
+  u.pitch = 1;
+  return u;
+}
+
+function clearSpeaking(){ rows.forEach(r => r.el.classList.remove("speaking")); }
+
+function speakOne(text, rowEl){
+  speechSynthesis.cancel();
+  clearSpeaking();
+  rowEl.classList.add("speaking");
+  const u = makeUtter(text);
+  u.onend = () => rowEl.classList.remove("speaking");
+  u.onerror = () => rowEl.classList.remove("speaking");
+  speechSynthesis.speak(u);
+}
+
+let playing = false;
+let idx = 0;
+const playAllBtn = document.getElementById("playAll");
+
+function stopAll(){
+  playing = false;
+  speechSynthesis.cancel();
+  clearSpeaking();
+  playAllBtn.textContent = "▶︎ Play all";
+}
+
+function playFrom(i){
+  if(!playing) return;
+  if(i >= rows.length){
+    if(loop){ i = 0; } else { stopAll(); return; }
+  }
+  idx = i;
+  const r = rows[i];
+  clearSpeaking();
+  r.el.classList.add("speaking");
+  r.el.scrollIntoView({behavior:"smooth", block:"center"});
+  const u = makeUtter(r.pl);
+  u.onend = () => { if(playing) setTimeout(() => playFrom(i+1), 550); };
+  u.onerror = () => { if(playing) setTimeout(() => playFrom(i+1), 550); };
+  speechSynthesis.speak(u);
+}
+
+playAllBtn.addEventListener("click", () => {
+  if(playing){ stopAll(); return; }
+  playing = true;
+  playAllBtn.textContent = "■ Stop";
+  playFrom(0);
+});
+
+document.getElementById("loopBtn").addEventListener("click", (e) => {
+  loop = !loop;
+  e.target.textContent = "Loop: " + (loop ? "on" : "off");
+  e.target.classList.toggle("on", loop);
+});
+
+function setRate(r){
+  rate = Math.min(1.3, Math.max(0.5, Math.round(r*10)/10));
+  document.getElementById("rateVal").textContent = rate.toFixed(1);
+}
+document.getElementById("slower").addEventListener("click", () => setRate(rate - 0.1));
+document.getElementById("faster").addEventListener("click", () => setRate(rate + 0.1));
+
+// iOS needs a user gesture to unlock speech; the button taps handle that.
+</script>
+</body>
+</html>

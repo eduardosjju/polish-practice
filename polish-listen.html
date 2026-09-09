@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kraków — listen</title>
+<style>
+  :root{
+    --ink:#f2ede2;
+    --paper:#131210;
+    --card:#1e1c19;
+    --line:#38342d;
+    --amber:#e8825a;
+    --dust:#a49a88;
+    --gold:#d9b65a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    line-height:1.5;
+    padding:22px 16px 90px;
+    max-width:560px;
+    margin:0 auto;
+  }
+  header{margin-bottom:16px}
+  .kicker{
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:.7rem;letter-spacing:.18em;color:var(--dust);
+    display:block;margin-bottom:8px;
+  }
+  h1{font-size:2rem;line-height:1.05;font-weight:600;letter-spacing:-.01em}
+  h1 span{color:var(--amber)}
+  .sub{margin-top:10px;color:var(--dust);font-size:.9rem;max-width:46ch}
+  #novoice{
+    display:none;background:#241713;border:1px solid var(--amber);
+    color:var(--ink);border-radius:9px;padding:11px 13px;
+    margin-top:12px;font-size:.85rem;
+  }
+  #novoice b{color:var(--amber)}
+
+  /* Big hands-free player */
+  .player{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:22px 18px;margin:18px 0;
+    text-align:center;
+  }
+  .nowPl{
+    font-size:2rem;font-weight:600;letter-spacing:-.01em;
+    line-height:1.1;min-height:2.3rem;
+  }
+  .nowEn{color:var(--dust);font-size:1rem;margin-top:8px;min-height:1.2rem}
+  .counter{
+    font-family:ui-monospace,Menlo,monospace;font-size:.72rem;
+    color:var(--dust);margin-top:12px;letter-spacing:.1em;
+  }
+
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:6px}
+  button{font-family:inherit;cursor:pointer;border:none;-webkit-tap-highlight-color:transparent}
+  .primary{
+    background:var(--amber);color:#1a120e;font-size:1.05rem;font-weight:700;
+    border-radius:999px;padding:13px 26px;letter-spacing:-.01em;
+  }
+  .ghost{
+    background:transparent;color:var(--dust);border:1px solid var(--line);
+    border-radius:999px;padding:10px 16px;font-size:.85rem;
+  }
+  .ghost.on{color:var(--gold);border-color:var(--gold)}
+  .rate{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--dust);font-family:ui-monospace,Menlo,monospace}
+  .rate button{background:var(--card);color:var(--ink);border:1px solid var(--line);width:30px;height:30px;border-radius:8px;font-size:1rem;line-height:1}
+
+  .divider{
+    font-family:ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.14em;
+    color:var(--dust);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);
+  }
+  .row{
+    display:flex;align-items:center;gap:12px;
+    background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:11px 12px;margin-bottom:8px;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .row.speaking{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold), inset 3px 0 0 var(--gold)}
+  .play{
+    flex:0 0 auto;width:44px;height:44px;border-radius:50%;
+    background:#2a2621;border:1px solid var(--line);color:var(--amber);
+    font-size:1.05rem;display:grid;place-items:center;
+  }
+  .row.speaking .play{background:var(--gold);color:#1a140a;border-color:var(--gold)}
+  .txt{flex:1 1 auto;min-width:0}
+  .pl{font-size:1.05rem;font-weight:600;letter-spacing:-.01em}
+  .en{font-size:.82rem;color:var(--dust);margin-top:2px}
+
+  footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);font-size:.78rem;color:var(--dust);text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="kicker">POLISH · LISTEN, DON'T READ</span>
+  <h1>Just <span>listen</span>.</h1>
+  <p class="sub">Hit “Listen” and go hands-free — it speaks each word in Polish, then the English meaning. Eyes off the screen. Loop it on the plane.</p>
+  <div id="novoice"></div>
+</header>
+
+<div class="player">
+  <div class="nowPl" id="nowPl">Ready</div>
+  <div class="nowEn" id="nowEn">tap Listen to begin</div>
+  <div class="counter" id="counter"></div>
+</div>
+
+<div class="controls">
+  <button class="primary" id="playAll">▶︎ Listen</button>
+  <button class="ghost on" id="loopBtn">Loop: on</button>
+</div>
+<div class="controls">
+  <div class="rate">
+    Polish speed
+    <button id="slower">–</button>
+    <span id="rateVal">0.8</span>
+    <button id="faster">+</button>
+  </div>
+</div>
+
+<div id="list"></div>
+
+<footer>
+  Polish first, English after. If the English sounds Polish-accented, your phone needs an English voice too — but the Polish is what matters.
+</footer>
+
+<script>
+const PHRASES = [
+  {section:"Greetings & politeness"},
+  {pl:"Dzień dobry", en:"Good day, hello"},
+  {pl:"Cześć", en:"Hi, or bye — informal"},
+  {pl:"Do widzenia", en:"Goodbye"},
+  {pl:"Dziękuję", en:"Thank you"},
+  {pl:"Proszę", en:"Please, or you're welcome"},
+  {pl:"Przepraszam", en:"Sorry, excuse me"},
+  {pl:"Tak", en:"Yes"},
+  {pl:"Nie", en:"No"},
+  {section:"Ordering & paying"},
+  {pl:"Woda", en:"Water"},
+  {pl:"Piwo", en:"Beer"},
+  {pl:"Kawa", en:"Coffee"},
+  {section:"Toasts"},
+  {pl:"Na zdrowie!", en:"Cheers! To your health!"},
+  {section:"Getting around"},
+  {pl:"Toaleta", en:"Toilet"},
+  {pl:"Wejście", en:"Entrance"},
+  {pl:"Wyjście", en:"Exit"},
+  {section:"Rescue phrases"},
+  {pl:"Nie rozumiem", en:"I don't understand"},
+  {pl:"Nie mówię po polsku", en:"I don't speak Polish"},
+    {section:"Numbers 1–10"},
+  {pl:"Jeden", en:"One"},
+  {pl:"Dwa", en:"Two"},
+  {pl:"Trzy", en:"Three"},
+  {pl:"Cztery", en:"Four"},
+  {pl:"Pięć", en:"Five"},
+  {pl:"Sześć", en:"Six"},
+  {pl:"Siedem", en:"Seven"},
+  {pl:"Osiem", en:"Eight"},
+  {pl:"Dziewięć", en:"Nine"},
+  {pl:"Dziesięć", en:"Ten"},
+  {section:"Ice-breaker"},
+  {pl:"Pierwszy raz w Polsce i bardzo mi się podoba!", en:"First time in Poland and really liking it!"},
+];
+
+let plRate = 0.8;
+let loop = true;
+let plVoice = null, enVoice = null;
+
+function pickVoices(){
+  const voices = speechSynthesis.getVoices();
+  plVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith("pl")) || null;
+  enVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith("en")) || null;
+  const box = document.getElementById("novoice");
+  if(!plVoice){
+    box.style.display = "block";
+    box.innerHTML = "⚠ <b>No Polish voice installed</b> — the Polish will sound wrong. iOS: Settings → Accessibility → Spoken Content → Voices → add <b>Polish</b>. Then reload.";
+  } else {
+    box.style.display = "none";
+  }
+}
+pickVoices();
+speechSynthesis.onvoiceschanged = pickVoices;
+
+// Build the reference list (tap any to hear that pair)
+const list = document.getElementById("list");
+const rows = [];
+PHRASES.forEach((p) => {
+  if(p.section){
+    const d = document.createElement("div");
+    d.className = "divider";
+    d.textContent = p.section.toUpperCase();
+    list.appendChild(d);
+    return;
+  }
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML = `<button class="play" aria-label="Play">▶</button>
+    <div class="txt"><div class="pl"></div><div class="en"></div></div>`;
+  row.querySelector(".pl").textContent = p.pl;
+  row.querySelector(".en").textContent = p.en;
+  const myIndex = rows.length;
+  row.querySelector(".play").addEventListener("click", () => speakPair(myIndex, false));
+  list.appendChild(row);
+  rows.push({el:row, pl:p.pl, en:p.en});
+});
+
+function utter(text, lang, voice, rate){
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang;
+  if(voice) u.voice = voice;
+  u.rate = rate;
+  u.pitch = 1;
+  return u;
+}
+function clearSpeaking(){ rows.forEach(r => r.el.classList.remove("speaking")); }
+
+const nowPl = document.getElementById("nowPl");
+const nowEn = document.getElementById("nowEn");
+const counter = document.getElementById("counter");
+
+// Speak Polish, then English, for a given row index.
+// If continuous=true, advances to next row on completion.
+function speakPair(i, continuous){
+  speechSynthesis.cancel();
+  clearSpeaking();
+  const r = rows[i];
+  r.el.classList.add("speaking");
+  r.el.scrollIntoView({behavior:"smooth", block:"center"});
+  nowPl.textContent = r.pl;
+  nowEn.textContent = "";
+  counter.textContent = `${i+1} / ${rows.length}`;
+
+  const uPl = utter(r.pl, "pl-PL", plVoice, plRate);
+  uPl.onend = () => {
+    nowEn.textContent = r.en;
+    // brief gap, then English at a natural pace
+    setTimeout(() => {
+      const uEn = utter(r.en, "en-US", enVoice, 0.95);
+      uEn.onend = () => afterPair(i, continuous);
+      uEn.onerror = () => afterPair(i, continuous);
+      speechSynthesis.speak(uEn);
+    }, 250);
+  };
+  uPl.onerror = () => {
+    nowEn.textContent = r.en;
+    afterPair(i, continuous);
+  };
+  speechSynthesis.speak(uPl);
+}
+
+function afterPair(i, continuous){
+  if(!continuous){
+    rows[i].el.classList.remove("speaking");
+    return;
+  }
+  if(!playing) return;
+  const next = i + 1;
+  if(next >= rows.length){
+    if(loop){ setTimeout(() => { if(playing) speakPair(0, true); }, 700); }
+    else { stopAll(); }
+    return;
+  }
+  setTimeout(() => { if(playing) speakPair(next, true); }, 650);
+}
+
+let playing = false;
+const playAllBtn = document.getElementById("playAll");
+function stopAll(){
+  playing = false;
+  speechSynthesis.cancel();
+  clearSpeaking();
+  playAllBtn.textContent = "▶︎ Listen";
+  nowPl.textContent = "Paused";
+  nowEn.textContent = "tap Listen to resume from the top";
+  counter.textContent = "";
+}
+playAllBtn.addEventListener("click", () => {
+  if(playing){ stopAll(); return; }
+  playing = true;
+  playAllBtn.textContent = "■ Stop";
+  speakPair(0, true);
+});
+
+document.getElementById("loopBtn").addEventListener("click", (e) => {
+  loop = !loop;
+  e.target.textContent = "Loop: " + (loop ? "on" : "off");
+  e.target.classList.toggle("on", loop);
+});
+function setRate(r){
+  plRate = Math.min(1.2, Math.max(0.5, Math.round(r*10)/10));
+  document.getElementById("rateVal").textContent = plRate.toFixed(1);
+}
+document.getElementById("slower").addEventListener("click", () => setRate(plRate - 0.1));
+document.getElementById("faster").addEventListener("click", () => setRate(plRate + 0.1));
+</script>
+</body>
+</html>

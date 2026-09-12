@@ -35,111 +35,106 @@
     font-size:.7rem;letter-spacing:.18em;color:var(--dust);
     display:block;margin-bottom:8px;
   }
-  h1{font-size:2rem;line-height:1.05;font-weight:600;letter-spacing:-.01em}
-  h1 span{color:var(--amber)}
-  .sub{margin-top:10px;color:var(--dust);font-size:.9rem;max-width:46ch}
+  h1{font-size:1.5rem;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+  .sub{color:var(--dust);font-size:.95rem;margin-bottom:18px}
+  .controls{
+    position:sticky;top:0;z-index:5;
+    background:var(--paper);
+    padding:10px 0 12px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+  }
+  .now{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    min-height:78px;
+  }
+  .now .pl{font-size:1.35rem;color:var(--amber);font-weight:600}
+  .now .en{font-size:1rem;color:var(--dust);margin-top:4px}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  button{
+    font-family:inherit;font-size:.9rem;
+    background:var(--card);color:var(--ink);
+    border:1px solid var(--line);border-radius:10px;
+    padding:9px 14px;cursor:pointer;
+  }
+  button.primary{background:var(--amber);color:#1a1410;border-color:var(--amber);font-weight:600}
+  button.on{border-color:var(--gold);color:var(--gold)}
+  .counter{font-family:ui-monospace,monospace;font-size:.8rem;color:var(--dust);margin-left:auto}
+  .rate{display:flex;gap:6px;align-items:center;font-size:.8rem;color:var(--dust);margin-top:8px}
+  .rate button{padding:4px 10px}
   #novoice{
-    display:none;background:#241713;border:1px solid var(--amber);
-    color:var(--ink);border-radius:9px;padding:11px 13px;
-    margin-top:12px;font-size:.85rem;
+    display:none;background:#3a2418;border:1px solid #7a4a2a;
+    color:#f0d0b8;border-radius:10px;padding:10px 12px;
+    font-size:.82rem;margin-bottom:12px;line-height:1.45;
   }
-  #novoice b{color:var(--amber)}
-
-  /* Big hands-free player */
-  .player{
-    background:var(--card);border:1px solid var(--line);
-    border-radius:16px;padding:22px 18px;margin:18px 0;
-    text-align:center;
-  }
-  .nowPl{
-    font-size:2rem;font-weight:600;letter-spacing:-.01em;
-    line-height:1.1;min-height:2.3rem;
-  }
-  .nowEn{color:var(--dust);font-size:1rem;margin-top:8px;min-height:1.2rem}
-  .counter{
-    font-family:ui-monospace,Menlo,monospace;font-size:.72rem;
-    color:var(--dust);margin-top:12px;letter-spacing:.1em;
-  }
-
-  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:6px}
-  button{font-family:inherit;cursor:pointer;border:none;-webkit-tap-highlight-color:transparent}
-  .primary{
-    background:var(--amber);color:#1a120e;font-size:1.05rem;font-weight:700;
-    border-radius:999px;padding:13px 26px;letter-spacing:-.01em;
-  }
-  .ghost{
-    background:transparent;color:var(--dust);border:1px solid var(--line);
-    border-radius:999px;padding:10px 16px;font-size:.85rem;
-  }
-  .ghost.on{color:var(--gold);border-color:var(--gold)}
-  .rate{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--dust);font-family:ui-monospace,Menlo,monospace}
-  .rate button{background:var(--card);color:var(--ink);border:1px solid var(--line);width:30px;height:30px;border-radius:8px;font-size:1rem;line-height:1}
-
-  .divider{
-    font-family:ui-monospace,Menlo,monospace;font-size:.62rem;letter-spacing:.14em;
-    color:var(--dust);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line);
+  .list{margin-top:6px}
+  .section{
+    font-family:ui-monospace,monospace;font-size:.68rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--dust);
+    margin:18px 0 8px;
   }
   .row{
     display:flex;align-items:center;gap:12px;
     background:var(--card);border:1px solid var(--line);
-    border-radius:11px;padding:11px 12px;margin-bottom:8px;
-    transition:border-color .15s, box-shadow .15s;
+    border-radius:10px;padding:12px 14px;margin-bottom:8px;
+    cursor:pointer;
   }
-  .row.speaking{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold), inset 3px 0 0 var(--gold)}
-  .play{
-    flex:0 0 auto;width:44px;height:44px;border-radius:50%;
-    background:#2a2621;border:1px solid var(--line);color:var(--amber);
-    font-size:1.05rem;display:grid;place-items:center;
-  }
-  .row.speaking .play{background:var(--gold);color:#1a140a;border-color:var(--gold)}
-  .txt{flex:1 1 auto;min-width:0}
-  .pl{font-size:1.05rem;font-weight:600;letter-spacing:-.01em}
-  .en{font-size:.82rem;color:var(--dust);margin-top:2px}
-
-  footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);font-size:.78rem;color:var(--dust);text-align:center}
+  .row.speaking{border-color:var(--amber);background:#241d18}
+  .row .txt{flex:1}
+  .row .pl{font-size:1.1rem;color:var(--ink);font-weight:600}
+  .row .en{font-size:.88rem;color:var(--dust);margin-top:2px}
+  .row .play{color:var(--amber);font-size:1.1rem}
+  footer{color:var(--dust);font-size:.8rem;margin-top:22px;line-height:1.5}
 </style>
 </head>
 <body>
-
 <header>
-  <span class="kicker">HUNGARIAN · LISTEN, DON'T READ</span>
-  <h1>Just <span>listen</span>.</h1>
-  <p class="sub">Hit “Listen” and go hands-free — it speaks each word in Hungarian, then the English meaning. Eyes off the screen. Loop it on the plane.</p>
-  <div id="novoice"></div>
+  <span class="kicker">BUDAPEST · LISTEN, DON'T READ</span>
+  <h1>Magyar — hands-free</h1>
+  <div class="sub">Tap any line to hear it. Or hit Listen and let it run.</div>
 </header>
 
-<div class="player">
-  <div class="nowPl" id="nowPl">Ready</div>
-  <div class="nowEn" id="nowEn">tap Listen to begin</div>
-  <div class="counter" id="counter"></div>
-</div>
+<div id="novoice"></div>
 
 <div class="controls">
-  <button class="primary" id="playAll">▶︎ Listen</button>
-  <button class="ghost on" id="loopBtn">Loop: on</button>
-</div>
-<div class="controls">
+  <div class="now">
+    <div class="pl" id="nowPl">Ready</div>
+    <div class="en" id="nowEn">tap Listen to begin</div>
+  </div>
+  <div class="btns">
+    <button class="primary" id="playAll">▶︎ Listen</button>
+    <button id="loopBtn" class="on">Loop: on</button>
+    <span class="counter" id="counter"></span>
+  </div>
   <div class="rate">
-    Hungarian speed
+    speed
     <button id="slower">–</button>
-    <span id="rateVal">0.8</span>
+    <span id="rateVal">1.0</span>
     <button id="faster">+</button>
   </div>
 </div>
 
-<div id="list"></div>
+<div class="list" id="list"></div>
 
 <footer>
-  Hungarian first, English after. If the English sounds Hungarian-accented, your phone needs an English voice too — but the Hungarian is what matters.
+  Hungarian voice needed or it'll sound wrong. iOS: Settings → Accessibility → Spoken Content → Voices → add Hungarian, then reload.
 </footer>
 
 <script>
 const PHRASES = [
   {section:"Greetings & politeness"},
+  {pl:"Jó reggelt", en:"Good morning"},
   {pl:"Jó napot", en:"Good day"},
-  {pl:"Szia", en:"Hi or bye"},
+  {pl:"Jó estét", en:"Good evening"},
+  {pl:"Szia", en:"Hi or bye — casual"},
+  {pl:"Viszlát", en:"Bye — neutral, safe on the way out"},
   {pl:"Köszönöm", en:"Thank you"},
-  {pl:"Kérem", en:"Please, or here you are"},
+  {pl:"Legyen szíves", en:"Please"},
+  {pl:"Kérem", en:"I'd like / please (asking for something)"},
   {pl:"Szívesen", en:"You're welcome"},
   {pl:"Elnézést", en:"Excuse me, sorry"},
   {pl:"Igen", en:"Yes"},
@@ -149,6 +144,7 @@ const PHRASES = [
   {pl:"Sör", en:"Beer"},
   {pl:"Kávé", en:"Coffee"},
   {pl:"A számlát, legyen szíves", en:"The bill, please"},
+  {pl:"Két főre, legyen szíves", en:"Table for two, please"},
   {section:"Toasts"},
   {pl:"Egészségedre!", en:"Cheers! To your health!"},
   {pl:"Jó étvágyat!", en:"Enjoy your meal!"},
@@ -156,13 +152,11 @@ const PHRASES = [
   {pl:"Mosdó", en:"Toilet, restroom"},
   {pl:"Bejárat", en:"Entrance"},
   {pl:"Kijárat", en:"Exit"},
-  {section:"Rescue phrases"},
-  {pl:"Nem értem", en:"I don't understand"},
-  {pl:"Nem beszélek magyarul", en:"I don't speak Hungarian"},
-  {pl:"Beszél angolul?", en:"Do you speak English?"},
+  {section:"Counting 1–5"},
+  {pl:"Egy, kettő, három, négy, öt", en:""},
 ];
 
-let plRate = 0.8;
+let plRate = 1.0;
 let loop = true;
 let plVoice = null, enVoice = null;
 
@@ -178,45 +172,43 @@ function pickVoices(){
     box.style.display = "none";
   }
 }
-pickVoices();
 speechSynthesis.onvoiceschanged = pickVoices;
-
-const list = document.getElementById("list");
-const rows = [];
-PHRASES.forEach((p) => {
-  if(p.section){
-    const d = document.createElement("div");
-    d.className = "divider";
-    d.textContent = p.section.toUpperCase();
-    list.appendChild(d);
-    return;
-  }
-  const row = document.createElement("div");
-  row.className = "row";
-  row.innerHTML = `<button class="play" aria-label="Play">▶</button>
-    <div class="txt"><div class="pl"></div><div class="en"></div></div>`;
-  row.querySelector(".pl").textContent = p.pl;
-  row.querySelector(".en").textContent = p.en;
-  const myIndex = rows.length;
-  row.querySelector(".play").addEventListener("click", () => speakPair(myIndex, false));
-  list.appendChild(row);
-  rows.push({el:row, pl:p.pl, en:p.en});
-});
+pickVoices();
 
 function utter(text, lang, voice, rate){
   const u = new SpeechSynthesisUtterance(text);
   u.lang = lang;
   if(voice) u.voice = voice;
   u.rate = rate;
-  u.pitch = 1;
   return u;
 }
-function clearSpeaking(){ rows.forEach(r => r.el.classList.remove("speaking")); }
+
+const list = document.getElementById("list");
+const rows = [];
+PHRASES.forEach((p) => {
+  if(p.section){
+    const s = document.createElement("div");
+    s.className = "section";
+    s.textContent = p.section;
+    list.appendChild(s);
+    return;
+  }
+  const el = document.createElement("div");
+  el.className = "row";
+  el.innerHTML = `<div class="txt"><div class="pl">${p.pl}</div><div class="en">${p.en}</div></div><div class="play">▶︎</div>`;
+  const idx = rows.length;
+  el.addEventListener("click", () => speakPair(idx, false));
+  list.appendChild(el);
+  rows.push({pl:p.pl, en:p.en, el});
+});
 
 const nowPl = document.getElementById("nowPl");
 const nowEn = document.getElementById("nowEn");
 const counter = document.getElementById("counter");
 
+function clearSpeaking(){ rows.forEach(r => r.el.classList.remove("speaking")); }
+
+// If continuous=true, advances to next row on completion.
 function speakPair(i, continuous){
   speechSynthesis.cancel();
   clearSpeaking();
@@ -230,6 +222,7 @@ function speakPair(i, continuous){
   const uPl = utter(r.pl, "hu-HU", plVoice, plRate);
   uPl.onend = () => {
     nowEn.textContent = r.en;
+    if(!r.en){ afterPair(i, continuous); return; }
     setTimeout(() => {
       const uEn = utter(r.en, "en-US", enVoice, 0.95);
       uEn.onend = () => afterPair(i, continuous);
